@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include("../components/head.ejs") %>
+</head>
+<body>
+  <%- include("../components/navigation.ejs") %>
+  
+  <div class="container mt-3">
+    <div class="row">
+
+      <% if(products.length > 0) { %>
+        <% for(product of products){ %>
+          <div class="card" style="width: 18rem;">
+            <img src="<%= product.imageUrl %>" alt="Product Image" class="img-fluid img-thumbnail card-img-top">
+            <div class="card-body">
+              <h5 class="card-title"><%= product.title %></h5>
+              <p class="card-text"><%= product.description %></p>
+            </div>
+            <div class="card-footer">
+              <form action="/add-to-cart" method="POST" class="d-inline">
+                <input type="hidden" name="productId" value="<%= product.id %>">
+                <button type="submit" class="btn btn-primary btn-sm">Add To Cart</button>
+              </form>
+              <a href="/product/<%= product.id %>" class="btn btn-outline-success btn-sm">Detail</a>
+              <% if(pathName === "admin-product") { %>
+                <form action="/admin/delete-product" method="POST" class="d-inline">
+                  <input type="hidden" name="id" value="<%= product.id %>">
+                  <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                </form>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+      <% } else { %>
+        <div class="col-12">
+          <h2>No Data</h2>
+        </div>
+      <% } %>
+
+    </div>
+  </div>
+
+
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
