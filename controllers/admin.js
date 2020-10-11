@@ -1,7 +1,8 @@
 const Product = require("../models/product")
+const objId = require("mongodb").ObjectId
 
 exports.getProductsPage = (req, res, next) => {
-  Product.findAll()
+  Product.fetchAll()
   .then(products => {
     res.render("shop/products", {
       pageTitle: "Admin - Product",
@@ -27,48 +28,34 @@ exports.postAddProduct = (req, res, next) => {
   const price = req.body.price
   const image = req.body.image
 
-  req.user.createProduct({
-    title: title,
-    description: description,
-    price: price,
-    imageUrl: image
-  })
-  .then(result => {
+  const product = new Product(title, price, description, image)
+
+  product.save((result) => {
     res.redirect("/admin/add-product")
-  })
-  .catch(err => {
-    res.send(err)
   })
 }
 
 exports.postEditProduct = (req, res, next) => {
+  const id = req.body.id
   const title = req.body.title
   const description = req.body.description
   const price = req.body.price
   const image = req.body.image
+  const product = new Product(title, price, description, image, id)
 
-  Product.findByPk(req.body.id)
-  .then(product => {
-    product.title = title
-    product.description = description
-    product.price = price
-    product.imageUrl = image
-    
-    return product.save()
-  })
-  .then(result => {
+  product.save((result) => {
     res.redirect("/admin/products")
   })
-  .catch(err => res.send(err))
 }
 
 exports.postDeleteProduct = (req, res, next) => {
-  Product.findByPk(req.body.id)
-  .then(product => {
-    return product.destroy()
-  })
+  productId = new objId(req.body.id)
+
+  Product.destory({ _id: productId })
   .then(result => {
     res.redirect("/admin/products")
   })
-  .catch(err => res.send(err))
+  .catch(err => {
+    res.send(err)
+  })
 }

@@ -22,10 +22,10 @@
                 <input type="hidden" name="productId" value="<%= product.id %>">
                 <button type="submit" class="btn btn-primary btn-sm">Add To Cart</button>
               </form>
-              <a href="/product/<%= product.id %>" class="btn btn-outline-success btn-sm">Detail</a>
+              <a href="/product/<%= product._id %>" class="btn btn-outline-success btn-sm">Detail</a>
               <% if(pathName === "admin-product") { %>
                 <form action="/admin/delete-product" method="POST" class="d-inline">
-                  <input type="hidden" name="id" value="<%= product.id %>">
+                  <input type="hidden" name="id" value="<%= product._id %>">
                   <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
                 </form>
               <% } %>
