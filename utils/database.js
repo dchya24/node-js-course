@@ -1,6 +1,11 @@
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient
-const uri = 'mongodb+srv://mitang:LSPFVnTQS0RIC05C@learning.9sjii.gcp.mongodb.net/test'
+const dbUser = process.env.DB_USER
+const dbHost = process.env.DB_HOST
+const dbPass = process.env.DB_PASSWORD
+const dbName = process.env.DB_NAME
+
+const uri = `mongodb+srv://${dbUser}:${dbPass}@${dbHost}/${dbName}`
 
 let _db;
 
